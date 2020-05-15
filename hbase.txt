@@ -1,0 +1,22 @@
+3.7.74.40
+Lunch break 01.00 to 02.00 
+004 02.00 03.00 
+
+hadoop
+karthick1808
+hbase shelll
+create 'emp','personal','official'
+list
+status
+put 'emp','1','personal:name','demo'
+put 'emp','1','personal:s1','99'
+put 'emp','1','personal:s2','88'
+put 'emp','1','personal:s3','55'
+put 'emp','1','personal:s4','77'
+put 'emp','2','personal:name','demo2'
+put 'emp','2','personal:s1','99'
+put 'emp','2','personal:s2','88'
+put 'emp','2','personal:s3','55'
+put 'emp','2','personal:s4','77'
+scan 'emp'
+get 'emp','1'
