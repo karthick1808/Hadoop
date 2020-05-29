@@ -1,0 +1,74 @@
+Mysql:
+    create table karthick (Year int, 
+    Month int, 
+    DayofMonth int ,
+    DayOfWeek int, 
+    DepTime int,  
+    CRSDepTime int, 
+    ArrTime int, 
+    CRSArrTime int, 
+    UniqueCarrier varchar(40), 
+    FlightNum int, 
+    TailNum  varchar(40), 
+    ActualElapsedTime int, 
+    CRSElapsedTime int, 
+    AirTime int, 
+    ArrDelay int, 
+    DepDelay int, 
+    Origin  varchar(40), 
+    Dest varchar(40), 
+    Distance int, 
+    TaxiIn int, 
+    TaxiOut int, 
+    Cancelled int, 
+    CancellationCode  varchar(40), 
+    Diverted varchar(40), 
+    CarrierDelay int, 
+    WeatherDelay int, 
+    NASDelay int, 
+    SecurityDelay int,  
+    LateAircraftDelay int)
+My sql Load
+load data local infile '/root/2007.csv' into table karthick fields terminated by ',' lines terminated by '\n';
+
+
+Hive Create table
+    create table karthick (Year int, 
+    Month int, 
+    DayofMonth int ,
+    DayOfWeek int, 
+    DepTime int,  
+    CRSDepTime int, 
+    ArrTime int, 
+    CRSArrTime int, 
+    UniqueCarrier varchar(40), 
+    FlightNum int, 
+    TailNum  varchar(40), 
+    ActualElapsedTime int, 
+    CRSElapsedTime int, 
+    AirTime int, 
+    ArrDelay int, 
+    DepDelay int, 
+    Origin  varchar(40), 
+    Dest varchar(40), 
+    Distance int, 
+    TaxiIn int, 
+    TaxiOut int, 
+    Cancelled int, 
+    CancellationCode  varchar(40), 
+    Diverted varchar(40), 
+    CarrierDelay int, 
+    WeatherDelay int, 
+    NASDelay int, 
+    SecurityDelay int,  
+    LateAircraftDelay int) 
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ',' 
+    tblproperties("skip.header.line.count"="1");
+
+Load the data in to hive Table
+load data local inpath '/user/edureka_212418/hive_emp/emp_details.txt'  into table emp_hive;
+
+Using Sqoop to hive
+
+
