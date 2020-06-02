@@ -1,7 +1,4 @@
-18.204.15.229
-karthick
-Welcome@123
-
+Steps to install mysql on Ubuntu18.04
 step 1
 sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
 step 2
