@@ -1,0 +1,154 @@
+
+import pyspark
+
+from pyspark.context import SparkContext
+
+list(range(1,10))
+
+l = list(range(1,100001))
+
+type(l)
+
+len(l)
+
+help(sc)
+
+help(sc.textFile)
+
+help(sc.parallelize)
+
+lrdd = sc.parallelize(l)
+
+type(lrdd)
+
+type(l)
+
+lrdd.count()
+
+lrdd.first()
+
+lrdd.take(100)
+
+lrdd.collect()
+
+help(lrdd.reduce)
+
+demo = sc.parallelize([1,2,3,4,5])
+
+demo.count()
+
+demo.collect()
+
+demo.take(3)
+
+from operator import add
+
+demo.reduce(add)
+
+help(lrdd.reduce)
+
+demo.reduce(lambda x,y: x + y)
+
+lrdd.reduce(add)
+
+lrdd.reduce(lambda x,y: x + y)
+
+lrdd.reduce(lambda x,y: x if(x < y)else y)
+
+lrdd.reduce(lambda x,y: x if(x > y)else y)
+
+lines = ["Hello How are you?","you are welcome","welcome to pyspark rdd session"]
+
+type(lines)
+
+len(lines)
+
+lines[0]
+
+lines[1]
+
+lines[2]
+
+karthick = sc.parallelize(lines)
+
+type(karthick)
+
+karthick.count()
+
+karthick.collect()
+
+karthick.take(1)
+
+karthick.take(2)
+
+karthick.take(3)
+
+s = "Hello how are you?"
+
+s = lines[0]
+
+s
+
+s.split()
+
+s.split(" ")
+
+karthick.collect()
+
+karthickflatMap = karthick.flatMap(lambda x: x.split(" "))
+
+karthickflatMap.collect()
+
+karthickflatMap.count()
+
+for i in karthickflatMap.collect(): print(i)
+
+lrdd.take(10)
+
+help(lrdd.flatMap)
+
+lrddflatMap.collect()
+
+help(karthickflatMap.map)
+
+karthickmap = karthickflatMap.map(lambda x: (x, 1))
+
+karthickmap.count()
+
+karthickmap.collect()
+
+for i in karthickmap.collect(): print(i)
+
+for i in karthickflatMap.collect(): print(i)
+
+wc = karthickmap.reduceByKey(lambda x,y: x+y)
+
+wc.count()
+
+for i in wc.collect(): print(i)
+
+help(karthickmap.reduceByKey)
+
+help(sc.textFile)
+
+csv = sc.textFile("/user/hadoop/2007.csv")
+
+csv.count()
+
+csv.take(3)
+
+csvflatMap = csv.flatMap(lambda x: x.split(","))
+
+csvflatMap.count()
+
+for i in csvflatMap.take(29): print(i)
+
+csvtuples = csvflatMap.map(lambda x: (x, 1))
+
+for i in csvtuples.take(29): print(i)
+
+wc1 = csvtuples.reduceByKey(lambda x, y: x + y)
+
+wc1.count()
+
+for i in wc1.take(29): print(i)
