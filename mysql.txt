@@ -1,48 +1,39 @@
 Steps to install mysql on Ubuntu18.04
 step 1
 sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
+
 step 2
 sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb
 new window slect option ok
+
 step 3
 apt-get update -y
+
 step 4
 sudo apt-get install mysql-server -y
 new window set your root password
+
 step 5
 mysql_secure_installation
 Securing the MySQL server deployment.
-
 Enter password for user root:
-
 VALIDATE PASSWORD COMPONENT can be used to test passwords
 and improve security. It checks the strength of password
 and allows the users to set only those passwords which are
 secure enough. Would you like to setup VALIDATE PASSWORD component?
-
 Press y|Y for Yes, any other key for No: y
-
 There are three levels of password validation policy:
-
 LOW    Length >= 8
 MEDIUM Length >= 8, numeric, mixed case, and special characters
 STRONG Length >= 8, numeric, mixed case, special characters and dictionary                  file
-
 Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG: 0
 Using existing password for root.
-
 Estimated strength of the password: 0
 Change the password for root ? ((Press y|Y for Yes, any other key for No) : n
-
-
-Change the password for root ? ((Press y|Y for Yes, any other key for No) : No
-
+Change the password for root ? ((Press y|Y for Yes, any other key for No) : N
 Remove anonymous users? (Press y|Y for Yes, any other key for No) : y
-
 Disallow root login remotely? (Press y|Y for Yes, any other key for No) : n
- 
 Remove test database and access to it? (Press y|Y for Yes, any other key for No)  : y
- 
 Reload privilege tables now? (Press y|Y for Yes, any other key for No) : y
 
 Step 5.1
