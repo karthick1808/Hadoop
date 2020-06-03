@@ -79,8 +79,10 @@ sqoop import --connect jdbc:mysql://127.0.0.1:3306/project --username root --spl
 import pyspark
 from pyspark.sql import HiveContext
 from pyspark.context import SparkContext
-conf = SparkConf().setMaster("local").setAppName("MyApp")
-sc = SparkContext.getOrCreate(conf=conf)
+sc = SparkContext.getOrCreate()
 com = HiveContext(sc)
 df = com.sql("select * from project.karthick limit 10").show()
 df = com.sql("").show()
+
+
+df2.coalesce(1).write.format('json').save('/path/file_name.json')
