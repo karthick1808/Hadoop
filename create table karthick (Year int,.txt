@@ -71,4 +71,6 @@ load data local inpath '/user/edureka_212418/hive_emp/emp_details.txt'  into tab
 
 Using Sqoop to hive
 
+Using Sqoop to hive
+sqoop import --connect jdbc:mysql://127.0.0.1:3306/project --username root --split-by FlightNum --table karthick --target-dir /user/hadoop/karthick/ --hive-import --hive-table project.karthick
 
