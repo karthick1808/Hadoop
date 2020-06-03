@@ -1,0 +1,132 @@
+
+import pyspark
+
+from pyspark.sql import HiveContext
+from pyspark.context import SparkContext
+sc = SparkContext.getOrCreate()
+com = HiveContext(sc)
+query1 = com.sql("select * from demo limit 10")
+
+type(query1)
+
+query1.show()
+
+query1.coalesce(1).write.format('json').save('/user/hadoop/query1')
+
+query2 = com.sql("select Dest,TailNum,count(tailnum) as Total_count from demo where TailNum != 'NA' and TailNum  NOT LIKE '0%' group by Dest, TailNum order by Total_count desc,dest")
+
+query2.show()
+
+query2.coalesce(1).write.format('json').save('/user/hadoop/query2')
+
+query3 = com.sql("select month,TailNum,FlightNUm from demo where Cancelled = 1 AND month In (10,11,12) group by  month,FLightnum,TailNum order by month")
+
+query3.show()
+
+query3.coalesce(1).write.format('json').save('/user/hadoop/query3.1')
+
+query4 = com.sql("select distinct(FlightNum) as FLIGHT_NUM,month,avg(WeatherDelay) as Average_Weather_Delay from  demo group by FlightNum,Month order by flight_num,month")
+
+query4.show()
+
+query4.coalesce(1).write.format('json').save('/user/hadoop/query4')
+
+query5 = com.sql("select FlightNum from demo where (CarrierDelay>0 OR WeatherDelay>0 OR NASDelay>0 OR SecurityDelay>0 OR LateAircraftDelay> 0) ANd ArrDelay<=0")
+
+query5.show()
+
+query6 = com.sql("select distinct FlightNum,sum(Distance) as SUM_DISTANCE,Month from demo group by Month,FlightNum")
+
+query6.show()
+
+query5.coalesce(1).write.format('json').save('/user/hadoop/query5')
+query6.coalesce(1).write.format('json').save('/user/hadoop/query6')
+
+query7 = com.sql("select count(FlightNum) as Count_DIVERTED,month from demo where diverted=1 group by month")
+
+query7.show()
+
+query7.coalesce(1).write.format('json').save('/user/hadoop/query7')
+
+query8 = com.sql("select month,case when dayofmonth between 1 and 7 then '1' when dayofmonth between 8 and 14 then '2' when dayofmonth between 15 and 21 then '3' when dayofmonth between 22 and 28 then '4' when dayofmonth between 29  and 31 then '5' else 'default' end as week ,flightnum,count (FlightNum) as count from demo where  cancelled=0 group by flightnum,month,dayofmonth order by month,week")
+
+query8.show()
+
+query8.coalesce(1).write.format('json').save('/user/hadoop/query8')
+
+query9=com.sql("select month,tailnum,count(origin) as trips from demo where cancelled=0 group by month,tailnum order by month,trips desc")
+
+
+com.registerDataFrameAsTable(query9,'table9')
+
+query9_final=com.sql("select month,first(tailnum) as TailNum,first(trips) as Trips from table9 group by month")
+
+query9.show()
+
+query9_inter = com.sql("select * from table9")
+
+query9_inter.show()
+
+query9_final.show()
+
+query9_final.coalesce(1).write.format('json').save('/user/hadoop/query9_final')
+
+query10 = com.sql("select distinct month , avg(Arrdelay) as Average_Delay from demo group by flightnum,month")
+
+query10.show()
+
+query10.coalesce(1).write.format('json').save('/user/hadoop/query10')
+
+query11 = com.sql("select distinct month,avg(depdelay) as Average_Departure_delay from demo group by month")
+
+query11.show()
+
+query11.coalesce(1).write.format('json').save('/user/hadoop/query11')
+
+query12 = com.sql("select uniquecarrier,avg(carrierdelay) as Avg_carrier_delay from demo where carrierdelay > 0 group by uniquecarrier order by Avg_carrier_delay limit 1")
+
+query12.show()
+
+query12.coalesce(1).write.format('json').save('/user/hadoop/query12')
+
+query13 = com.sql("select distinct month,dayofweek,min(arrdelay)as arival_delay,min(depdelay) as dep_delay , min(carrierdelay) as  carrier_delay,min(weatherdelay) as weather_delay ,min(nasdelay) as n_a_delay, min(securitydelay) as  security_Delay,min(lateaircraftdelay) as lateairdelay from demo group by dayofweek,month order by  arival_delay desc limit 1")
+
+query13.show()
+
+query13.coalesce(1).write.format('json').save('/user/hadoop/query13')
+
+query14 = com.sql("select timeofday,sum(Delay) as Delay from(select CASE when deptime>500 and deptime<1201 then  'Morning' when deptime>1200 and deptime<1601 then 'Afternoon' when deptime>1600 and  deptime<2001 then 'Evening' when deptime>2000 and deptime<2401 then 'Night' when deptime>=0  and deptime<501 then 'Night' END as timeofday, (arrdelay + depdelay + carrierdelay + weatherdelay +  nasdelay + securitydelay + lateaircraftdelay) as Delay from demo where deptime IS NOT  NULL)record_2007 group by timeofday order by Delay")
+
+query14.show()
+
+query14.coalesce(1).write.format('json').save('/user/hadoop/query14')
+
+query15 = com.sql("select flightnum,arrdelay,depdelay from demo where depdelay>0 and arrdelay>0")
+
+query15.show()
+
+query15.coalesce(1).write.format('json').save('/user/hadoop/query15')
+
+dfm16 = com.sql("select month,sum(cancelled) sum_cancel from demo group by month")
+dfm16.registerTempTable("month1")
+dfm17 = com.sql("select month,cancellationcode,sum(cancelled)*100 cancel_percent from demo where cancellationcode<>'' group by month,cancellationcode")
+dfm17.registerTempTable("month2")
+query17 = com.sql("select  mt1.month,mt2.cancellationcode,mt2.cancel_percent/mt1.sum_cancel final_percent from month1 mt1, month2 mt2  where mt1.month = mt2.month order by mt1.month")
+
+dfm16.show()
+
+dfm17.show()
+
+query17.show()
+
+com.sql("select * from month1").show()
+
+com.sql("select * from month2").show()
+
+query17.coalesce(1).write.format('json').save('/user/hadoop/query17')
+
+query18 = com.sql("Select month,SUM(ArrDelay+depdelay+carrierdelay+weatherdelay+nasdelay+securitydelay+lateaircraftdelay) as  OVERALL_DELAY from demo group by month order by month")
+
+query18.show()
+
+query18.coalesce(1).write.format('json').save('/user/hadoop/query18')
