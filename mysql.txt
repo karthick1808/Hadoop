@@ -7,7 +7,7 @@ sudo dpkg -i mysql-apt-config_0.8.15-1_all.deb
 new window slect option ok
 
 step 3
-apt-get update -y
+sudo apt-get update -y
 
 step 4
 sudo apt-get install mysql-server -y
@@ -51,9 +51,9 @@ or
 CREATE USER karthick IDENTIFIED WITH mysql_native_password BY 'Welcome@123';
 
 step 8
-GRANT ALL PRIVILEGES ON * . * TO 'fosstechnix'@'%';
+GRANT ALL PRIVILEGES ON * . * TO 'karthick'@'%';
 or
-GRANT ALL PRIVILEGES ON *.* TO 'fosstechnix'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'karthick'@'%' WITH GRANT OPTION;
 
 step 9
 FLUSH PRIVILEGES; 
@@ -71,7 +71,36 @@ mysql> quit
 login in to mysql with
 mysql --local-infile=1 -u root -p
 
-step 11
+setp 11
+ create table karthick123 (Year varchar(40),
+    Month varchar(40),
+    DayofMonth varchar(40),
+    DayOfWeek varchar(40),
+    DepTime varchar(40),
+    CRSDepTime varchar(40),
+    ArrTime varchar(40),
+    CRSArrTime varchar(40),
+    UniqueCarrier varchar(40),
+    FlightNum varchar(40),
+    TailNum  varchar(40),
+    ActualElapsedTime varchar(40),
+    CRSElapsedTime varchar(40),
+    AirTime varchar(40),
+    ArrDelay varchar(40),
+    DepDelay varchar(40),
+    Origin  varchar(40),
+    Dest varchar(40),
+    Distance varchar(40),
+    TaxiIn varchar(40),
+    TaxiOut varchar(40),
+    Cancelled varchar(40),
+    CancellationCode varchar(40),
+    Diverted varchar(40),
+    CarrierDelay varchar(40),
+    WeatherDelay varchar(40),
+    NASDelay varchar(40),
+    SecurityDelay varchar(40),
+    LateAircraftDelay varchar(40));
+
+step 12
 load data local infile '/home/hadoop/2007.csv' into table karthick fields terminated by ',' lines terminated by '\n'
-
-
